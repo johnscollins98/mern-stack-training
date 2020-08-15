@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
+import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import "../form.css";
 
@@ -11,12 +12,18 @@ const CreateExercise = (props) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setUsers(["test user", "second user"]);
-    setUsername("test user");
+    axios
+      .get("http://localhost:5000/users")
+      .then((res) => {
+        if (res.data.length > 0) {
+          setUsers(res.data.map((user) => user.username));
+          setUsername(res.data[0].username);
+        }
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const onSubmit = (e) => {
-    console.log("Submit");
     e.preventDefault();
 
     const exercise = {
@@ -27,7 +34,11 @@ const CreateExercise = (props) => {
     };
 
     console.log(exercise);
-    // window.location = "/";
+    axios
+      .post("http://localhost:5000/exercises/add", exercise)
+      .then((res) => console.log(res));
+
+    window.location = "/";
   };
 
   return (
@@ -36,7 +47,7 @@ const CreateExercise = (props) => {
       <form onSubmit={onSubmit}>
         <div className="form-group input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text">Username: </span>
+            <span className="input-group-text">Username</span>
           </div>
           <select
             className="form-control"
@@ -53,7 +64,7 @@ const CreateExercise = (props) => {
         </div>
         <div className="form-group input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text">Description: </span>
+            <span className="input-group-text">Description</span>
           </div>
           <input
             type="text"
@@ -65,7 +76,7 @@ const CreateExercise = (props) => {
         </div>
         <div className="form-group input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text">Duration (minutes): </span>
+            <span className="input-group-text">Duration (minutes)</span>
           </div>
           <input
             type="text"
@@ -77,7 +88,7 @@ const CreateExercise = (props) => {
         </div>
         <div className="form-group input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text">Date: </span>
+            <span className="input-group-text">Date</span>
           </div>
           <DatePicker
             selected={date}
