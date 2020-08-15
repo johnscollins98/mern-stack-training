@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "../form.css";
 
 const CreateExercise = (props) => {
   const [username, setUsername] = useState("");
@@ -33,8 +34,10 @@ const CreateExercise = (props) => {
     <div>
       <h3>Create New Exercise Log</h3>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label>Username: </label>
+        <div className="form-group input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Username: </span>
+          </div>
           <select
             className="form-control"
             value={username}
@@ -48,8 +51,10 @@ const CreateExercise = (props) => {
             ))}
           </select>
         </div>
-        <div className="form-group">
-          <label>Description:</label>
+        <div className="form-group input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Description: </span>
+          </div>
           <input
             type="text"
             value={description}
@@ -58,8 +63,10 @@ const CreateExercise = (props) => {
             required
           ></input>
         </div>
-        <div className="form-group">
-          <label>Duration (in minutes):</label>
+        <div className="form-group input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Duration (minutes): </span>
+          </div>
           <input
             type="text"
             value={duration}
@@ -68,11 +75,15 @@ const CreateExercise = (props) => {
             required
           ></input>
         </div>
-        <div className="form-group">
-          <label>Date:</label>
-          <div>
-            <DatePicker selected={date} onChange={setDate} />
+        <div className="form-group input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Date: </span>
           </div>
+          <DatePicker
+            selected={date}
+            className="form-control date"
+            onChange={setDate}
+          />
         </div>
 
         <div className="form-group">
